@@ -1,0 +1,11 @@
+{
+  "name": "tshet-uinh-english",
+  "version": "0.1.0",
+  "description": "A JavaScript library for the Qieyun phonological system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
