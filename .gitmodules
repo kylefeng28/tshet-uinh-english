@@ -4,3 +4,6 @@
 [submodule "tshet-uinh-examples"]
 	path = tshet-uinh-examples
 	url = https://github.com/nk2028/tshet-uinh-examples
+[submodule "tshet-uinh-deriver-tools"]
+	path = tshet-uinh-deriver-tools
+	url = https://github.com/nk2028/tshet-uinh-deriver-tools

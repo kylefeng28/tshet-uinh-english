@@ -9,6 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "tshet-uinh": "file:tshet-uinh-js"
+    "tshet-uinh": "file:tshet-uinh-js",
+    "tshet-uinh-deriver-tools": "file:tshet-uinh-deriver-tools"
   }
 }

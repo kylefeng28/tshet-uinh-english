@@ -91,6 +91,13 @@ Most of the terms should be explained in the glossary above. However, it is impo
    - 廣韻 → Guangyun (dictionary name)
 
 
+See also [tshet-uinh-english-usage.ts](https://github.com/kylefeng28/tshet-uinh-english/blob/main/tshet-uinh-english-usage.ts) and [putonghua-en.js](https://github.com/kylefeng28/tshet-uinh-english/blob/main/putonghua-en.js) as a reference.
+
+To see the Putonghua deriver in action, run:
+```bash
+bun derive.js putonghua_en.js sample_text.txt
+```
+
 ### Main Namespaces
 
 | Chinese | English | Description |
