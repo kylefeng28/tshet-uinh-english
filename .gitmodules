@@ -1,0 +1,6 @@
+[submodule "tshet-uinh-js"]
+	path = tshet-uinh-js
+	url = https://github.com/nk2028/tshet-uinh-js
+[submodule "tshet-uinh-examples"]
+	path = tshet-uinh-examples
+	url = https://github.com/nk2028/tshet-uinh-examples
