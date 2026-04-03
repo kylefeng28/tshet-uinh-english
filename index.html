@@ -1,0 +1,651 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>tshet-uinh-english</title><meta name="description" content="Documentation for tshet-uinh-english"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">tshet-uinh-english</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>tshet-uinh-english</h1></div><div class="tsd-panel tsd-typography"><a id="md:tshet-uinh-english" class="tsd-anchor"></a><h2 class="tsd-anchor-link">tshet-uinh-english<a href="#md:tshet-uinh-english" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>This is an English wrapper of the tshet-uinh-js JavaScript library: <a href="https://github.com/nk2028/tshet-uinh-js" target="_blank" class="external">nk2028/tshet-uinh-js</a>.</p>
+<p>Thanks to @ayaka14732 for all the hard work creating and maintaining this library!</p>
+<p>I wanted to use this library to analyze how well Middle Chinese pronunciation maps onto modern Chinese dialects like Mandarin and Cantonese, as well as trying to see if I can use it to predict Japanese 音読み (on'yomi) readings or Korean 음독 (eumdok) readings of kanji/hanja loanwords.</p>
+<p>However, although I can speak and understand Chinese, I didn't grow up in China, so my reading ability is severely limited (especially for reading Traditional Chinese characters), so I made this as a more convenient API for myself to use.</p>
+<ul>
+<li>Tshet Uinh Autoderiver demo: <a href="https://nk2028.shn.hk/tshet-uinh-autoderiver/" target="_blank" class="external">https://nk2028.shn.hk/tshet-uinh-autoderiver/</a> (<a href="https://github.com/nk2028/tshet-uinh-autoderiver" target="_blank" class="external">GitHub repo</a>)</li>
+<li>Examples: <a href="https://github.com/nk2028/tshet-uinh-examples" target="_blank" class="external">https://github.com/nk2028/tshet-uinh-examples</a></li>
+</ul>
+<a id="md:glossary" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Glossary<a href="#md:glossary" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="md:core-phonological-concepts" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Core Phonological Concepts<a href="#md:core-phonological-concepts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p><strong>反切 Fanqie spelling</strong>: The pronunciation of a character is indicated/spelled with two other characters: the first provides the initial consonant, and the second provides the rime and tone. For example, 東 is spelled as 德 + 紅.</p>
+<p><strong>小韻 Xiaoyun (homophone group)</strong>: A group of characters that were pronounced identically in Middle Chinese. Each xiaoyun represents one unique phonological position.</p>
+<p><strong>音韻地位 Yinyun position (phonological position)</strong>: The complete specification of a syllable's pronunciation in the Qieyun system using six attributes (六要素).</p>
+<a id="md:六要素-six-phonological-attributes" class="tsd-anchor"></a><h3 class="tsd-anchor-link">六要素 Six Phonological Attributes<a href="#md:六要素-six-phonological-attributes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p><strong>母 Initial</strong> - The beginning consonant sound</p>
+<ul>
+<li>Examples: 幫 (p), 端 (t), 見 (k), 影 (ʔ)</li>
+</ul>
+<p><strong>呼 (Lip) Rounding</strong> - Whether the vowel was rounded or unrounded</p>
+<ul>
+<li>開口: Unrounded</li>
+<li>合口: Rounded</li>
+<li>null: Rounding-neutral (for certain rimes and labial initials)</li>
+</ul>
+<p><strong>等 Division</strong> - Classification for vowel quality, numbered 1-4</p>
+<ul>
+<li>一等: Division I (back vowels)</li>
+<li>二等: Division II (mid vowels)</li>
+<li>三等: Division III (front vowels, palatalized)</li>
+<li>四等: Division IV (high front vowels)</li>
+</ul>
+<p><strong>類 Type</strong> - Subdivision of Division III into A, B, C types.</p>
+<ul>
+<li>A類/B類: Front vowel types (重紐 chóngniǔ distinction)</li>
+<li>C類: Non-front vowel type</li>
+<li>Only applies to labial, velar, and laryngeal initials in Division III</li>
+</ul>
+<p><strong>韻 Rime</strong> - The vowel and any final consonant, including tone</p>
+<ul>
+<li>Examples: 東 (ung), 支 (je), 真 (jin)</li>
+</ul>
+<p><strong>聲 Tone</strong> - The pitch pattern of the syllable. Middle Chinese had 4 tones:</p>
+<ul>
+<li>平聲: Level tone</li>
+<li>上聲: Rising tone</li>
+<li>去聲: Departing tone</li>
+<li>入聲: Entering tone (also called checked tone, ends in a stop like -p/-t/-k)</li>
+</ul>
+<a id="md:higher-level-classifications" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Higher-Level Classifications<a href="#md:higher-level-classifications" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p><strong>攝 Rime Class</strong> - Groups of rimes with similar phonetic characteristics. 16 classes total</p>
+<ul>
+<li>Examples: 通攝 (Tong class), 止攝 (Zhi class), 蟹攝 (Xie class)</li>
+</ul>
+<p><strong>組 Initial Group</strong> - Groups of related initial consonants</p>
+<ul>
+<li>Examples: 幫組 (labial group), 見組 (velar group), 精組 (dental sibilant group)</li>
+</ul>
+<p><strong>清濁 Voicing</strong> - Whether the initial consonant was voiced or voiceless</p>
+<ul>
+<li>全清: Fully voiceless (aspirated stops, voiceless fricatives)</li>
+<li>次清: Secondarily voiceless (unaspirated stops)</li>
+<li>全濁: Fully voiced (voiced stops, voiced fricatives)</li>
+<li>次濁: Secondarily voiced (nasals, liquids, glides)</li>
+</ul>
+<p><strong>韻別 Rime Type</strong> - Classification by final consonant</p>
+<ul>
+<li>陰聲韻: Open rimes (no final consonant)</li>
+<li>陽聲韻: Nasal rimes (end in -m, -n, -ng)</li>
+<li>入聲韻: Stop rimes (end in -p, -t, -k)</li>
+</ul>
+<a id="md:historical-sources" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Historical Sources<a href="#md:historical-sources" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><strong>切韻 Qieyun</strong> - The foundational rime dictionary compiled by Lu Fayan in 601 CE, representing the Middle Chinese phonological system</li>
+<li><strong>廣韻 Guangyun</strong> - An expanded version of the Qieyun compiled in 1008 CE, the most complete surviving source for Middle Chinese phonology</li>
+<li><strong>Yunjing</strong> - A phonological chart system organizing Middle Chinese syllables in a systematic table format.</li>
+</ul>
+<hr>
+<a id="md:api" class="tsd-anchor"></a><h2 class="tsd-anchor-link">API<a href="#md:api" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>There should be a 1:1 correspondence between the English API and the original Chinese-based tshet-uinh-js API.</p>
+<p>Most of the terms should be explained in the glossary above. However, it is important to note that I have take the liberty of translating some terms to English where the semantic meaning makes sense or is clear enough, and transliterating the terms when there is no suitable English equivalent. For example:</p>
+<ul>
+<li>
+<p>Translated terms:</p>
+<ul>
+<li>小韻 (xiaoyun) → <code>homophoneGroup</code></li>
+<li>字頭 → <code>headword</code></li>
+<li>壓縮表示 (compression representation) → <code>encoder</code></li>
+<li>原書小韻 → <code>originalHomophoneGroup</code> (distinguishes from subdivided groups)</li>
+</ul>
+</li>
+<li>
+<p>Transliterated terms:</p>
+<ul>
+<li>音韻 → yinyun (phonology)</li>
+<li>反切 → fanqie (spelling system)</li>
+<li>廣韻 → Guangyun (dictionary name)</li>
+</ul>
+</li>
+</ul>
+<p>See also <a href="https://github.com/kylefeng28/tshet-uinh-english/blob/main/tshet-uinh-english-usage.ts" target="_blank" class="external">tshet-uinh-english-usage.ts</a> and <a href="https://github.com/kylefeng28/tshet-uinh-english/blob/main/putonghua-en.js" target="_blank" class="external">putonghua-en.js</a> as a reference.</p>
+<p>To see the Putonghua deriver in action, run:</p>
+<pre><code class="bash"><span class="hl-0">bun</span><span class="hl-1"> </span><span class="hl-2">derive.js</span><span class="hl-1"> </span><span class="hl-2">putonghua_en.js</span><span class="hl-1"> </span><span class="hl-2">sample_text.txt</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="md:main-namespaces" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Main Namespaces<a href="#md:main-namespaces" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TshetUinh.資料</td>
+<td>TshetUinh.resources</td>
+<td>Data/resource access</td>
+</tr>
+<tr>
+<td>TshetUinh.壓縮表示</td>
+<td>TshetUinh.encoder</td>
+<td>Compression/encoding utilities</td>
+</tr>
+<tr>
+<td>TshetUinh.表達式</td>
+<td>TshetUinh.expressions</td>
+<td>Predefined expressions</td>
+</tr>
+</tbody>
+</table>
+<a id="md:classes" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Classes<a href="#md:classes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>音韻地位</td>
+<td>YinyunPosition</td>
+<td>Phonological position (main class)</td>
+</tr>
+</tbody>
+</table>
+<a id="md:core-properties-音韻地位yinyunposition" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Core Properties (音韻地位/YinyunPosition)<a href="#md:core-properties-音韻地位yinyunposition" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>母</td>
+<td>initial</td>
+<td>Initial consonant</td>
+</tr>
+<tr>
+<td>呼</td>
+<td>rounding</td>
+<td>Rounding (開口/合口)</td>
+</tr>
+<tr>
+<td>等</td>
+<td>division</td>
+<td>Division (一二三四等)</td>
+</tr>
+<tr>
+<td>類</td>
+<td>type</td>
+<td>Type (ABC類)</td>
+</tr>
+<tr>
+<td>韻</td>
+<td>rime</td>
+<td>Rime</td>
+</tr>
+<tr>
+<td>聲</td>
+<td>tone</td>
+<td>Tone</td>
+</tr>
+</tbody>
+</table>
+<a id="md:computed-properties-音韻地位yinyunposition" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Computed Properties (音韻地位/YinyunPosition)<a href="#md:computed-properties-音韻地位yinyunposition" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字母</td>
+<td>zimu</td>
+<td>36 initials (三十六字母)</td>
+</tr>
+<tr>
+<td>描述</td>
+<td>description</td>
+<td>Full description</td>
+</tr>
+<tr>
+<td>攝</td>
+<td>rimeClass</td>
+<td>Rime class (攝)</td>
+</tr>
+<tr>
+<td>清濁</td>
+<td>voicing</td>
+<td>Voicing (清濁)</td>
+</tr>
+<tr>
+<td>簡略描述</td>
+<td>briefDescription</td>
+<td>Brief description</td>
+</tr>
+<tr>
+<td>組</td>
+<td>group</td>
+<td>Initial group</td>
+</tr>
+<tr>
+<td>表達式</td>
+<td>expression</td>
+<td>Expression for 屬於 function</td>
+</tr>
+<tr>
+<td>音</td>
+<td>articulation</td>
+<td>Place of articulation</td>
+</tr>
+<tr>
+<td>韻別</td>
+<td>rimeType</td>
+<td>Rime type (陰聲韻/陽聲韻/入聲韻)</td>
+</tr>
+</tbody>
+</table>
+<a id="md:methods-音韻地位yinyunposition" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Methods (音韻地位/YinyunPosition)<a href="#md:methods-音韻地位yinyunposition" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>判斷</td>
+<td>evaluate</td>
+<td>Evaluate conditions</td>
+</tr>
+<tr>
+<td>屬於</td>
+<td>belongsTo</td>
+<td>Check if belongs to expression</td>
+</tr>
+<tr>
+<td>等於</td>
+<td>equals</td>
+<td>Check equality</td>
+</tr>
+<tr>
+<td>調整</td>
+<td>adjust</td>
+<td>Adjust properties</td>
+</tr>
+<tr>
+<td>from描述</td>
+<td>fromDescription</td>
+<td>Create from description</td>
+</tr>
+<tr>
+<td>驗證</td>
+<td>validate</td>
+<td>Validate phonological position</td>
+</tr>
+</tbody>
+</table>
+<a id="md:resource-functions-資料resources" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Resource Functions (資料/resources)<a href="#md:resource-functions-資料resources" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>query字頭</td>
+<td>queryHeadword</td>
+<td>Query by headword</td>
+</tr>
+<tr>
+<td>query音韻地位</td>
+<td>queryYinyunPosition</td>
+<td>Query by phonological position</td>
+</tr>
+<tr>
+<td>iter音韻地位</td>
+<td>iterateYinyunPositions</td>
+<td>Iterate phonological positions</td>
+</tr>
+</tbody>
+</table>
+<a id="md:guangyun-namespace-資料廣韻resourcesguangyun" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Guangyun Namespace (<code>資料.廣韻/resources.Guangyun</code>)<a href="#md:guangyun-namespace-資料廣韻resourcesguangyun" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>get原書小韻</td>
+<td>getOriginalHomophoneGroup</td>
+<td>Get entries by original homophone group number</td>
+</tr>
+<tr>
+<td>get小韻</td>
+<td>getHomophoneGroup</td>
+<td>Get entries by homophone group ID</td>
+</tr>
+<tr>
+<td>iter原書小韻</td>
+<td>iterateOriginalHomophoneGroups</td>
+<td>Iterate original homophone groups</td>
+</tr>
+<tr>
+<td>iter小韻</td>
+<td>iterateHomophoneGroups</td>
+<td>Iterate homophone groups</td>
+</tr>
+<tr>
+<td>iter小韻號</td>
+<td>iterateHomophoneGroupIds</td>
+<td>Iterate homophone group IDs</td>
+</tr>
+<tr>
+<td>iter條目</td>
+<td>iterateEntries</td>
+<td>Iterate all entries</td>
+</tr>
+<tr>
+<td>原書小韻總數</td>
+<td>originalHomophoneGroupCount</td>
+<td>Total count of original homophone groups</td>
+</tr>
+</tbody>
+</table>
+<a id="md:guangyun-data-structures" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Guangyun Data Structures<a href="#md:guangyun-data-structures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><a id="md:廣韻條目-guangyunentry" class="tsd-anchor"></a><h4 class="tsd-anchor-link">廣韻條目 (GuangyunEntry)<a href="#md:廣韻條目-guangyunentry" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字頭</td>
+<td>headword</td>
+<td>Character headword</td>
+</tr>
+<tr>
+<td>音韻地位</td>
+<td>yinyunPosition</td>
+<td>Phonological position</td>
+</tr>
+<tr>
+<td>反切</td>
+<td>fanqie</td>
+<td>Fanqie spelling</td>
+</tr>
+<tr>
+<td>釋義</td>
+<td>definition</td>
+<td>Definition/explanation</td>
+</tr>
+<tr>
+<td>來源</td>
+<td>source</td>
+<td>Source information</td>
+</tr>
+</tbody>
+</table>
+<a id="md:廣韻來源-guangyunsource" class="tsd-anchor"></a><h4 class="tsd-anchor-link">廣韻來源 (GuangyunSource)<a href="#md:廣韻來源-guangyunsource" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文獻</td>
+<td>literature</td>
+<td>Literature source</td>
+</tr>
+<tr>
+<td>小韻號</td>
+<td>homophoneGroupId</td>
+<td>Homophone group ID</td>
+</tr>
+<tr>
+<td>韻目</td>
+<td>rimeCategory</td>
+<td>Rime category</td>
+</tr>
+</tbody>
+</table>
+<a id="md:encoding-functions-壓縮表示encoder" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Encoding Functions (壓縮表示/encoder)<a href="#md:encoding-functions-壓縮表示encoder" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>encode音韻編碼</td>
+<td>encodeYinyunCode</td>
+<td>Encode phonological code</td>
+</tr>
+<tr>
+<td>decode音韻編碼</td>
+<td>decodeYinyunCode</td>
+<td>Decode phonological code</td>
+</tr>
+</tbody>
+</table>
+<a id="md:computed-properties" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Computed Properties<a href="#md:computed-properties" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>轉名稱</td>
+<td>tableName</td>
+<td>Table name</td>
+</tr>
+<tr>
+<td>坐標</td>
+<td>coordinates</td>
+<td>Coordinates</td>
+</tr>
+<tr>
+<td>切韻等</td>
+<td>qieyunDivision</td>
+<td>Qieyun division</td>
+</tr>
+<tr>
+<td>韻</td>
+<td>rime</td>
+<td>Rime</td>
+</tr>
+<tr>
+<td>母</td>
+<td>initial</td>
+<td>Initial</td>
+</tr>
+<tr>
+<td>呼</td>
+<td>rounding</td>
+<td>Rounding</td>
+</tr>
+<tr>
+<td>聲</td>
+<td>tone</td>
+<td>Tone</td>
+</tr>
+<tr>
+<td>類</td>
+<td>type</td>
+<td>Type</td>
+</tr>
+<tr>
+<td>描述</td>
+<td>description</td>
+<td>Description</td>
+</tr>
+</tbody>
+</table>
+<a id="md:methods" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Methods<a href="#md:methods" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>to音韻地位</td>
+<td>toYinyunPosition</td>
+<td>Convert to YinyunPosition</td>
+</tr>
+<tr>
+<td>等於</td>
+<td>equals</td>
+<td>Check equality</td>
+</tr>
+</tbody>
+</table>
+<a id="md:expression-variables-表達式expressions" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Expression Variables (表達式/expressions)<a href="#md:expression-variables-表達式expressions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一等韻</td>
+<td>division1Rimes</td>
+<td>Division 1 rimes</td>
+</tr>
+<tr>
+<td>二等韻</td>
+<td>division2Rimes</td>
+<td>Division 2 rimes</td>
+</tr>
+<tr>
+<td>三等韻</td>
+<td>division3Rimes</td>
+<td>Division 3 rimes</td>
+</tr>
+<tr>
+<td>四等韻</td>
+<td>division4Rimes</td>
+<td>Division 4 rimes</td>
+</tr>
+<tr>
+<td>一三等韻</td>
+<td>division13Rimes</td>
+<td>Division 1&amp;3 rimes</td>
+</tr>
+<tr>
+<td>二三等韻</td>
+<td>division23Rimes</td>
+<td>Division 2&amp;3 rimes</td>
+</tr>
+<tr>
+<td>開口韻</td>
+<td>unroundedRimes</td>
+<td>Unrounded rimes</td>
+</tr>
+<tr>
+<td>合口韻</td>
+<td>roundedRimes</td>
+<td>Rounded rimes</td>
+</tr>
+<tr>
+<td>分開合韻</td>
+<td>distinguishingRoundingRimes</td>
+<td>Rimes distinguishing rounding</td>
+</tr>
+<tr>
+<td>開合中立韻</td>
+<td>neutralRoundingRimes</td>
+<td>Rounding-neutral rimes</td>
+</tr>
+</tbody>
+</table>
+<a id="md:other-functions" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Other Functions<a href="#md:other-functions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>執行反切</td>
+<td>executeFanqie</td>
+<td>Execute fanqie spelling</td>
+</tr>
+</tbody>
+</table>
+<a id="md:type-aliases" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Type Aliases<a href="#md:type-aliases" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>判斷規則列表</td>
+<td>EvaluationRuleList</td>
+<td>List of evaluation rules</td>
+</tr>
+<tr>
+<td>邊緣地位種類指定</td>
+<td>EdgePositionTypeSpecification</td>
+<td>Edge position type specification</td>
+</tr>
+<tr>
+<td>部分音韻屬性</td>
+<td>PartialYinyunAttributes</td>
+<td>Partial phonological attributes</td>
+</tr>
+<tr>
+<td>來源類型</td>
+<td>SourceType</td>
+<td>Source type</td>
+</tr>
+<tr>
+<td>檢索結果</td>
+<td>SearchResult</td>
+<td>Search result</td>
+</tr>
+<tr>
+<td>王三來源</td>
+<td>WangSanSource</td>
+<td>Wang San source</td>
+</tr>
+</tbody>
+</table>
+<a id="md:constantsattributes-音韻屬性常量" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Constants/Attributes (音韻屬性常量)<a href="#md:constantsattributes-音韻屬性常量" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Chinese</th>
+<th>English</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>音韻屬性常量</td>
+<td>YinyunAttributeConstants</td>
+<td>Phonological attribute constants</td>
+</tr>
+</tbody>
+</table>
+<a id="md:usage-examples" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Usage Examples<a href="#md:usage-examples" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="md:original-chinese-api" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Original Chinese API:<a href="#md:original-chinese-api" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code class="javascript"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">地位</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-0">音韻地位</span><span class="hl-1">(</span><span class="hl-2">&#39;幫&#39;</span><span class="hl-1">, </span><span class="hl-3">null</span><span class="hl-1">, </span><span class="hl-2">&#39;三&#39;</span><span class="hl-1">, </span><span class="hl-2">&#39;C&#39;</span><span class="hl-1">, </span><span class="hl-2">&#39;凡&#39;</span><span class="hl-1">, </span><span class="hl-2">&#39;入&#39;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">結果</span><span class="hl-1"> = </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">資料</span><span class="hl-1">.</span><span class="hl-0">query字頭</span><span class="hl-1">(</span><span class="hl-2">&#39;東&#39;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">編碼</span><span class="hl-1"> = </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">壓縮表示</span><span class="hl-1">.</span><span class="hl-0">encode音韻編碼</span><span class="hl-1">(</span><span class="hl-5">地位</span><span class="hl-1">);</span><br/><br/><span class="hl-6">// 廣韻資料</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">條目</span><span class="hl-1"> = </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">資料</span><span class="hl-1">.</span><span class="hl-5">廣韻</span><span class="hl-1">.</span><span class="hl-0">get小韻</span><span class="hl-1">(</span><span class="hl-2">&#39;3708b&#39;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">原書小韻</span><span class="hl-1"> = </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">資料</span><span class="hl-1">.</span><span class="hl-5">廣韻</span><span class="hl-1">.</span><span class="hl-0">get原書小韻</span><span class="hl-1">(</span><span class="hl-7">1234</span><span class="hl-1">);</span><br/><span class="hl-8">for</span><span class="hl-1"> (</span><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">小韻</span><span class="hl-1"> </span><span class="hl-3">of</span><span class="hl-1"> </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">資料</span><span class="hl-1">.</span><span class="hl-5">廣韻</span><span class="hl-1">.</span><span class="hl-0">iter小韻</span><span class="hl-1">()) {</span><br/><span class="hl-1">  </span><span class="hl-6">// 可以用小韻執行下事吧</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="md:english-api" class="tsd-anchor"></a><h3 class="tsd-anchor-link">English API:<a href="#md:english-api" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code class="javascript"><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">position</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-0">YinyunPosition</span><span class="hl-1">(</span><span class="hl-2">&#39;幫&#39;</span><span class="hl-1">, </span><span class="hl-3">null</span><span class="hl-1">, </span><span class="hl-2">&#39;三&#39;</span><span class="hl-1">, </span><span class="hl-2">&#39;C&#39;</span><span class="hl-1">, </span><span class="hl-2">&#39;凡&#39;</span><span class="hl-1">, </span><span class="hl-2">&#39;入&#39;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">result</span><span class="hl-1"> = </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">resources</span><span class="hl-1">.</span><span class="hl-0">queryHeadword</span><span class="hl-1">(</span><span class="hl-2">&#39;東&#39;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">encoded</span><span class="hl-1"> = </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">encoder</span><span class="hl-1">.</span><span class="hl-0">encodeYinyunCode</span><span class="hl-1">(</span><span class="hl-5">position</span><span class="hl-1">);</span><br/><br/><span class="hl-6">// Guangyun data access</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">entries</span><span class="hl-1"> = </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">resources</span><span class="hl-1">.</span><span class="hl-5">Guangyun</span><span class="hl-1">.</span><span class="hl-0">getHomophoneGroup</span><span class="hl-1">(</span><span class="hl-2">&#39;3708b&#39;</span><span class="hl-1">);</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">originalGroup</span><span class="hl-1"> = </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">resources</span><span class="hl-1">.</span><span class="hl-5">Guangyun</span><span class="hl-1">.</span><span class="hl-0">getOriginalHomophoneGroup</span><span class="hl-1">(</span><span class="hl-7">1234</span><span class="hl-1">);</span><br/><span class="hl-8">for</span><span class="hl-1"> (</span><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">group</span><span class="hl-1"> </span><span class="hl-3">of</span><span class="hl-1"> </span><span class="hl-5">TshetUinh</span><span class="hl-1">.</span><span class="hl-5">resources</span><span class="hl-1">.</span><span class="hl-5">Guangyun</span><span class="hl-1">.</span><span class="hl-0">iterateHomophoneGroups</span><span class="hl-1">()) {</span><br/><span class="hl-1">  </span><span class="hl-6">// Process homophone groups...</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#md:tshet-uinh-english"><span>tshet-<wbr/>uinh-<wbr/>english</span></a><a href="#md:glossary"><span>Glossary</span></a><ul><li><a href="#md:core-phonological-concepts"><span>Core <wbr/>Phonological <wbr/>Concepts</span></a></li><li><a href="#md:六要素-six-phonological-attributes"><span>六要素 <wbr/>Six <wbr/>Phonological <wbr/>Attributes</span></a></li><li><a href="#md:higher-level-classifications"><span>Higher-<wbr/>Level <wbr/>Classifications</span></a></li></ul><a href="#md:historical-sources"><span>Historical <wbr/>Sources</span></a><a href="#md:api"><span>API</span></a><ul><li><a href="#md:main-namespaces"><span>Main <wbr/>Namespaces</span></a></li><li><a href="#md:classes"><span>Classes</span></a></li><li><a href="#md:core-properties-音韻地位yinyunposition"><span>Core <wbr/>Properties (音韻地位/<wbr/>Yinyun<wbr/>Position)</span></a></li><li><a href="#md:computed-properties-音韻地位yinyunposition"><span>Computed <wbr/>Properties (音韻地位/<wbr/>Yinyun<wbr/>Position)</span></a></li><li><a href="#md:methods-音韻地位yinyunposition"><span>Methods (音韻地位/<wbr/>Yinyun<wbr/>Position)</span></a></li><li><a href="#md:resource-functions-資料resources"><span>Resource <wbr/>Functions (資料/resources)</span></a></li><li><a href="#md:guangyun-namespace-資料廣韻resourcesguangyun"><span>Guangyun <wbr/>Namespace (資料.廣韻/resources.<wbr/>Guangyun)</span></a></li><li><a href="#md:guangyun-data-structures"><span>Guangyun <wbr/>Data <wbr/>Structures</span></a></li><li><ul><li><a href="#md:廣韻條目-guangyunentry"><span>廣韻條目 (<wbr/>Guangyun<wbr/>Entry)</span></a></li><li><a href="#md:廣韻來源-guangyunsource"><span>廣韻來源 (<wbr/>Guangyun<wbr/>Source)</span></a></li></ul></li><li><a href="#md:encoding-functions-壓縮表示encoder"><span>Encoding <wbr/>Functions (壓縮表示/encoder)</span></a></li><li><a href="#md:computed-properties"><span>Computed <wbr/>Properties</span></a></li><li><a href="#md:methods"><span>Methods</span></a></li></ul><a href="#md:expression-variables-表達式expressions"><span>Expression <wbr/>Variables (表達式/expressions)</span></a><a href="#md:other-functions"><span>Other <wbr/>Functions</span></a><a href="#md:type-aliases"><span>Type <wbr/>Aliases</span></a><a href="#md:constantsattributes-音韻屬性常量"><span>Constants/<wbr/>Attributes (音韻屬性常量)</span></a><a href="#md:usage-examples"><span>Usage <wbr/>Examples</span></a><ul><li><a href="#md:original-chinese-api"><span>Original <wbr/>Chinese API:</span></a></li><li><a href="#md:english-api"><span>English API:</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-1"></use></svg><span>tshet-uinh-english</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="."><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
