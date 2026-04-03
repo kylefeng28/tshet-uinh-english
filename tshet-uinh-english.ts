@@ -5,55 +5,92 @@
 
 import TshetUinh from 'tshet-uinh';
 
-// Type definitions for the English API
+/**
+ * See {@link TshetUinh.音韻地位}
+ */
 export interface YinyunPosition {
   // Core properties
+  /** See {@link TshetUinh.音韻地位.母} */
   readonly initial: string;
+  /** See {@link TshetUinh.音韻地位.呼} */
   readonly rounding: string | null;
+  /** See {@link TshetUinh.音韻地位.等} */
   readonly division: string;
+  /** See {@link TshetUinh.音韻地位.類} */
   readonly type: string | null;
+  /** See {@link TshetUinh.音韻地位.韻} */
   readonly rime: string;
+  /** See {@link TshetUinh.音韻地位.聲} */
   readonly tone: string;
 
   // Computed properties
+  /** See {@link TshetUinh.音韻地位.字母} */
   readonly zimu: string;
+  /** See {@link TshetUinh.音韻地位.描述} */
   readonly description: string;
+  /** See {@link TshetUinh.音韻地位.攝} */
   readonly rimeClass: string;
+  /** See {@link TshetUinh.音韻地位.清濁} */
   readonly voicing: string;
+  /** See {@link TshetUinh.音韻地位.簡略描述} */
   readonly briefDescription: string;
+  /** See {@link TshetUinh.音韻地位.組} */
   readonly group: string | null;
+  /** See {@link TshetUinh.音韻地位.表達式} */
   readonly expression: string;
+  /** See {@link TshetUinh.音韻地位.音} */
   readonly articulation: string;
+  /** See {@link TshetUinh.音韻地位.韻別} */
   readonly rimeType: string;
+  /** See {@link TshetUinh.音韻地位.韻圖等} */
   readonly yunjingDivision: string;
 
   // Methods
+  /** See {@link TshetUinh.音韻地位.判斷} */
   evaluate<T, E extends string | boolean = false>(
     rules: any[], 
     throws?: E, 
     fallThrough?: boolean
   ): E extends string | true ? T : T | null;
+  /** See {@link TshetUinh.音韻地位.屬於} */
   belongsTo(expression: string): boolean;
   belongsTo(expression: TemplateStringsArray, ...params: unknown[]): boolean;
+  /** See {@link TshetUinh.音韻地位.等於} */
   equals(other: YinyunPosition): boolean;
+  /** See {@link TshetUinh.音韻地位.調整} */
   adjust(adjustments: string | Partial<Pick<YinyunPosition, 'initial' | 'rounding' | 'division' | 'type' | 'rime' | 'tone'>>, edgePositionTypes?: any[]): YinyunPosition;
   toString(): string;
 }
 
+/**
+ * See {@link TshetUinh.資料.廣韻.廣韻條目}
+ */
 export interface GuangyunEntry {
+  /** See {@link TshetUinh.資料.廣韻.廣韻條目.字頭} */
   headword: string;
+  /** See {@link TshetUinh.資料.廣韻.廣韻條目.音韻地位} */
   yinyunPosition: YinyunPosition | null;
+  /** See {@link TshetUinh.資料.廣韻.廣韻條目.反切} */
   fanqie: string | null;
+  /** See {@link TshetUinh.資料.廣韻.廣韻條目.釋義} */
   definition: string;
+  /** See {@link TshetUinh.資料.廣韻.廣韻條目.來源} */
   source: GuangyunSource;
 }
 
+/**
+ * See {@link TshetUinh.資料.廣韻.廣韻來源}
+ */
 export interface GuangyunSource {
+  /** See {@link TshetUinh.資料.廣韻.廣韻來源.文獻} */
   literature: string;
+  /** See {@link TshetUinh.資料.廣韻.廣韻來源.小韻號} */
   homophoneGroupId: string;
+  /** See {@link TshetUinh.資料.廣韻.廣韻來源.韻目} */
   rimeCategory: string;
 }
 
+/** {@inheritDoc GuangyunEntry} */
 export interface SearchResult {
   headword: string;
   yinyunPosition: YinyunPosition;
@@ -140,11 +177,13 @@ export class TshetUinhEnglish {
       return this.wrapper;
     }
 
+    /** See {@link TshetUinh.音韻地位.from描述} */
     static fromDescription(description: string, brief: boolean = false, edgePositionTypes: any[] = []): YinyunPosition {
       const original = TshetUinh.音韻地位.from描述(description, brief, edgePositionTypes);
       return new YinyunPositionWrapper(original);
     }
 
+    /** See {@link TshetUinh.音韻地位.驗證} */
     static validate(initial: string, rounding: string | null, division: string, type: string | null, rime: string, tone: string, edgePositionTypes: any[] = []): void {
       return TshetUinh.音韻地位.驗證(initial, rounding, division, type, rime, tone, edgePositionTypes);
     }
@@ -317,3 +356,4 @@ export class TshetUinhEnglish {
 }
 
 export default TshetUinhEnglish;
+export { TshetUinh };
